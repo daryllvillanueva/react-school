@@ -2,20 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer {
-
+@font-face {
+    font-family: 'Roboto-bold';
+    src: url(/fonts/roboto-bold.woff) format("woff"),
+         url(/fonts/roboto-bold.woff2) format("woff");
+    font-display: swap;
+}
+ 
+@font-face {
+    font-family: 'Roboto-regular';
+    src: url(/fonts/roboto-regular.woff) format("woff"),
+         url(/fonts/roboto-regular.woff2) format("woff");
+    font-display: swap;
 }
 
-@utilities {
-    
+@font-face {
+    font-family: 'Roboto-medium';
+    src: url(/fonts/roboto-medium.woff) format("woff"),
+         url(/fonts/roboto-medium.woff2) format("woff");
+    font-display: swap;
 }
-
+ 
 :root {
     --primary: 255 255 255;
     --secondary: 242 242 242;
     --accent: 80 221 144;
     --content: 0 0 0;
     --line: 212 212 212;
+    --alert: 220 38 38;
+    --disable: 127 127 127;
+    --info: 68 130 208;
+    --warning: 177 130 47;
 }
 
 .dark {
@@ -24,11 +41,15 @@
     --accent: 80 221 144;
     --content: 255 255 255;
     --line: 14 14 14;
+    --alert: 220 38 38;
+    --disable: 127 127 127;
+    --info: 68 130 208;
+    --warning: 177 130 47;
 }
 
 @layer base {
     body {
-        @apply bg-primary text-content
+        @apply bg-primary text-content overflow-x-hidden font-regular
     }  
     
     a { @apply text-content }
@@ -38,15 +59,27 @@
     }
 
     h1,h2,h3,h4,h5,h6 {
-        @apply font-bold text-content
+        @apply font-thicker text-content
     }
 
     h1 { @apply text-3xl mb-4 }
     h2 { @apply text-xl mb-4 }
     h3 { @apply text-lg mb-4 }
     h4 { @apply text-base mb-4 }
-    p { @apply mb-2 }
+    p { @apply mb-2 !leading-6 opacity-60}
 
+    table {
+        @apply w-full text-sm;
+        th {
+            @apply font-bold py-4 px-2 text-left
+        }
+        td {
+            @apply p-2;
+        }
+        tbody tr:nth-child(odd) {
+            @apply bg-secondary bg-opacity-20;
+        }
+    }
 }
 
 @layer components {
@@ -69,4 +102,150 @@
     .nav-link.active {
         @apply border-l border-accent
     }
+
+    .tab-link {
+        @apply px-3 py-5
+    }
+
+    .tab-link.active {
+        @apply border-b border-accent
+    }
+
+    .tab-link.active a {
+        @apply text-accent;
+    }
+
+     .table-action ul {
+        @apply flex gap-4
+    }
+
+    .tooltip {
+        @apply text-base relative
+    }
+
+    .tooltip:hover::after {
+        @apply scale-100
+    }
+
+    .tooltip::after {
+        @apply absolute content-[attr(data-tooltip)] text-xs p-0.5 px-1.5 text-content bg-primary bg-opacity-90 top-[calc(100%+10px)] left-1/2 -translate-x-1/2
+        scale-0 transition-transform
+    }
+
+    .input-wrap {
+        @apply mb-3 relative
+    }
+
+    .input-wrap label {
+        @apply mb-1 block text-sm
+    }
+
+    .table-action ul {
+        @apply flex gap-4
+    }
+
+    .tooltip {
+        @apply text-base relative
+    }
+
+    .tooltip:hover::after {
+        @apply scale-100
+    }
+
+    .tooltip::after {
+        @apply absolute content-[attr(data-tooltip)] text-xs p-0.5 px-1.5 text-content bg-primary bg-opacity-90 top-[calc(100%+10px)] left-1/2 -translate-x-1/2
+        scale-0 transition-transform
+    }
+
+    .input-wrap input, .input-wrap select,
+    .input-wrap textarea{
+        @apply block w-full text-stone-800 focus:text-info px-2 py-2 rounded-md outline-none focus:border-2 focus:border-info
+        focus:bg-info/5
+    }
+
+    .input-wrap small {
+        @apply absolute top-1 right-1 text-red-600 italic text-xs
+    }
+
+    .form-action {
+        @apply flex gap-2
+    }
+
+    .loading-bar::after {
+        @apply content-[''] absolute top-0 left-0 w-[180%] h-full  bg-gradient-to-r from-transparent via-black/90 to-transparent  animate-loading;
+    }
+
 }
+
+@layer utilities {
+    .btn {
+        @apply px-2 py-1 rounded-md text-sm transition-colors flex items-center gap-2
+    }
+
+    .btn-form {
+        @apply p-2 w-full flex justify-center gap-2 items-center
+    }
+
+    .btn--accent {
+        @apply bg-accent text-white
+    }
+
+    .btn--cancel {
+        @apply bg-disable text-stone-800
+    }
+
+    .btn--alert {
+        @apply bg-alert text-white
+    }
+    
+    .btn--info {
+        @apply bg-info text-white
+    }
+
+    .btn--warning {
+        @apply bg-warning text-white
+    }
+
+    .btn:disabled {
+        @apply cursor-not-allowed opacity-60
+    }
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.spinner circle {
+    fill: none;
+    /* stroke: var(--light); */
+    stroke-width: 6;
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    animation: dash 1s ease-in-out infinite;
+  }
+  
+  @keyframes dash {
+    0% {
+      stroke-dasharray: 1,200;
+      stroke-dashoffset: 0;
+    }
+  
+    50% {
+      stroke-dasharray: 90, 200;
+      stroke-dashoffset: -35px;
+    }
+  
+    100% {
+      stroke-dashoffset: -110px;
+    }
+  }
