@@ -43,7 +43,7 @@ const Teacher = () => {
               <DatabaseInformation showInfo={showInfo}/>
             </div>
         </main>
-        <ModalValidate/>
+        {/* <ModalValidate/> */}
       </section>
     </>
   )

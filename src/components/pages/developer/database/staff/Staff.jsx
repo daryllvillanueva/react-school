@@ -44,7 +44,7 @@ const Staff = () => {
               <DatabaseInformation showInfo={showInfo}/>
             </div>
         </main>
-        <ModalConfirm/>
+        {/* <ModalConfirm/> */}
     </section>
     </>
   )

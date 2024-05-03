@@ -16,7 +16,8 @@ import SpinnerWindow from '../../../../partials/spinners/SpinnerWindow'
 
 const Student = () => {
   const [showInfo, setShowInfo] = React.useState(false);
-
+  const [showAddStudent, setAddStudent] = React.useState(false);
+  const handleAddStudent = () => setAddStudent(true);
   return (
     <>
     <section className='flex'>
@@ -39,7 +40,7 @@ const Student = () => {
                     <li className='tab-link'><Link to="/database/teacher">Teacher</Link></li>
                     <li className='tab-link'><Link to="/database/staff">Staff</Link></li>
                   </ul>
-                  <button className='btn btn--accent'>
+                  <button className='btn btn--accent' onClick={handleAddStudent}>
                     <FiPlus/>New
                   </button>
                 </div>
@@ -49,7 +50,7 @@ const Student = () => {
             </div>
         </main>
     </section>
-      <ModalAddStudent/>
+      {showAddStudent && <ModalAddStudent setAddStudent={setAddStudent}/> }
       {/* <ModalError/> */}
       {/* <ModalValidate/> */}
       {/* <ModalConfirm/> */}
