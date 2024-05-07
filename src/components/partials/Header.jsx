@@ -1,17 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CiBellOn } from 'react-icons/ci'
 import { LiaKeySolid, LiaSignOutAltSolid, LiaUserCircle } from 'react-icons/lia';
 import { PiCaretDownThin } from "react-icons/pi";
 import { Link } from 'react-router-dom';
 
 const Header = () => {
-  return (
+  const [showInfo, setShowInfo] = useState(false);
+  const toggleShowInfo = () => {
+    setShowInfo(!showInfo);
+  };
+  return (  
     <header className='header px-4 py-3 border-b border-line'>
       <div className='flex justify-end items-center gap-4 w-full relative'>
         <button className='text-3xl'><CiBellOn/></button>
         <img src="https://via.placeholder.com/40x40" alt="" className='size-[40px] rounded-full object-cover'/>
-        <button className='flex items-center gap-5'>Muh. Bambang<PiCaretDownThin/></button>
-        <div className='hidden header-dropdown absolute bg-secondary p-4 rounded-md right-0 top-[calc(100%+10px)] text-center shadow-sm'>
+        <button className='flex items-center gap-5' onClick={toggleShowInfo}>Muh. Bambang<PiCaretDownThin/></button>
+        <div className={`header-dropdown absolute bg-secondary p-4 px-6 rounded-md right-0 top-[calc(100%+12px)] text-center shadow-sm ${showInfo ? "z-[999]" : "hidden"}`}>
           <img src="https://via.placeholder.com/40x40" alt="" className='size-[40px] rounded-full object-cover mx-auto'/>
           <h4 className='mb-1'>Muh. Bambang</h4>
           <p className='text-sm w-[150px] truncate'>muh.bambang@gmail.com</p>

@@ -3,19 +3,30 @@ import Navigation from '../../../../partials/Navigation';
 import Header from '../../../../partials/Header';
 import { CiSearch } from 'react-icons/ci';
 import { FiPlus } from 'react-icons/fi';
-import StudentTable from '../student/StudentTable';
-import { Link } from 'react-router-dom'
 import DatabaseInformation from '../DatabaseInformation';
-import ModalConfirm from '../../../../partials/modals/ModalConfirm';
-
-
+import ModalValidate from '../../../../partials/modals/ModalValidate';
+import useQueryData from '../../../../custom-hook/useQueryData';
+import StaffTable from './StaffTable';
+import ModalAddStaff from './ModalAddStaff';
+import { Link } from 'react-router-dom';
 
 const Staff = () => {
   const [showInfo, setShowInfo] = React.useState(false);
-
+  const [showAddStaff, setAddStaff] = React.useState(false);
+  const handleAddStaff = () => setAddStaff(true);
+  const {
+    isLoading,
+    isFetching,
+    error,
+    data: staff,
+  } = useQueryData (
+    "/v1/staff", // endpoint
+    "get", // method
+    "staff" // key
+  );
   return (
     <>
-    <section className='flex'>
+      <section className='flex'>
         <Navigation/>
         <main className='w-[calc(100%-250px)]'>
             <Header/>
@@ -35,17 +46,17 @@ const Staff = () => {
                     <li className='tab-link'><Link to="/database/teacher">Teacher</Link></li>
                     <li className='tab-link active'><Link to="/database/staff">Staff</Link></li>
                   </ul>
-                  <button className='btn btn--accent'>
+                  <button className='btn btn--accent' onClick={handleAddStaff}>
                     <FiPlus/>New
                   </button>
                 </div>
-                <StudentTable setShowInfo={setShowInfo} showInfo={showInfo}/>
+                <StaffTable setShowInfo={setShowInfo} showInfo={showInfo} isLoading={isLoading} staff={staff}/>
               </div>
               <DatabaseInformation showInfo={showInfo}/>
             </div>
         </main>
-        {/* <ModalConfirm/> */}
-    </section>
+        {showAddStaff && <ModalAddStaff setAddStaff={setAddStaff}/> }
+      </section>
     </>
   )
 }

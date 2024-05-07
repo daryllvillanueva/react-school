@@ -1,7 +1,7 @@
 import React from 'react'
 import { LiaEnvelope, LiaKeySolid } from 'react-icons/lia'
 
-const DatabaseInformation = ({showInfo}) => {
+const DatabaseInformation = ({showInfo, teacher}) => {
   return (
     <div className={`information absolute transition-all border-l border-line h-[calc(100vh-65px)] w-1/4 ${showInfo ? "right-0" : "-right-1/4"}`}>
         <div className='p-10'>
@@ -41,3 +41,24 @@ const DatabaseInformation = ({showInfo}) => {
 }
 
 export default DatabaseInformation
+
+// {teacher?.data.map((item, key) => (
+//     <div key={key}>
+//         <div className="inf-box">
+//             <h4>{item.teacher_age}</h4>
+//             <p className='text-xs'>7</p>
+//         </div>
+//         <div className="inf-box">
+//             <h4>{item.teacher_gender}</h4>
+//             <p className='text-xs'>Male</p>
+//         </div>
+//         <div className="inf-box">
+//             <h4>Birthday</h4>
+//             <p className='text-xs'>Jan 1, 2000</p>
+//         </div>
+//         <div className="inf-box">
+//             <h4>Address</h4>
+//             <p className='text-xs'>Lorem ipsum, dolor sit amet consectetur adipisicing.</p>
+//         </div>
+//     </div>
+// ))}

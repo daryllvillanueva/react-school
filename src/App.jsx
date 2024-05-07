@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import Student from "./components/pages/developer/database/student/Student"
 import Teacher from "./components/pages/developer/database/teacher/Teacher"
-import Staff from "./components/pages/developer/database/staff/Staff"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import Staff from "./components/pages/developer/database/staff/Staff"
 
 function App() {
   const queryClient = new QueryClient

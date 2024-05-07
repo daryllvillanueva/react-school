@@ -7,11 +7,24 @@ import { Link } from 'react-router-dom'
 import { FiPlus } from 'react-icons/fi';
 import DatabaseInformation from '../DatabaseInformation';
 import ModalValidate from '../../../../partials/modals/ModalValidate';
+import ModalAddTeacher from './ModalAddTeacher';
+import useQueryData from '../../../../custom-hook/useQueryData';
 
 
 const Teacher = () => {
   const [showInfo, setShowInfo] = React.useState(false);
-
+  const [showAddTeacher, setAddTeacher] = React.useState(false);
+  const handleAddTeacher = () => setAddTeacher(true);
+  const {
+    isLoading,
+    isFetching,
+    error,
+    data: teacher,
+  } = useQueryData (
+    "/v1/teacher", // endpoint
+    "get", // method
+    "teacher" // key
+  );
   return (
     <>
       <section className='flex'>
@@ -34,16 +47,16 @@ const Teacher = () => {
                     <li className='tab-link active'><Link to="/database/teacher">Teacher</Link></li>
                     <li className='tab-link'><Link to="/database/staff">Staff</Link></li>
                   </ul>
-                  <button className='btn btn--accent'>
+                  <button className='btn btn--accent' onClick={handleAddTeacher}>
                     <FiPlus/>New
                   </button>
                 </div>
-                <TeacherTable setShowInfo={setShowInfo} showInfo={showInfo}/>
+                <TeacherTable setShowInfo={setShowInfo} showInfo={showInfo} isLoading={isLoading} teacher={teacher}/>
               </div>
-              <DatabaseInformation showInfo={showInfo}/>
+              <DatabaseInformation showInfo={showInfo} teacher={teacher}/>
             </div>
         </main>
-        {/* <ModalValidate/> */}
+        {showAddTeacher && <ModalAddTeacher setAddTeacher={setAddTeacher}/> }
       </section>
     </>
   )

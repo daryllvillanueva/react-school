@@ -64,8 +64,6 @@ const StudentTable = ({setShowInfo, showInfo, student, isLoading}) => {
           ))
         )}
        
-        
-        
       </tbody>
     </table>
   </div>
