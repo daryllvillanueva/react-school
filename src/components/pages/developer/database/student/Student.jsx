@@ -14,11 +14,21 @@ import ModalValidate from '../../../../partials/modals/ModalValidate'
 import ModalConfirm from '../../../../partials/modals/ModalConfirm'
 import SpinnerWindow from '../../../../partials/spinners/SpinnerWindow'
 import useQueryData from '../../../../custom-hook/useQueryData'
+import Toast from '../../../../partials/Toast'
+import ModalDelete from '../../../../partials/modals/ModalDelete'
 
 const Student = () => {
   const [showInfo, setShowInfo] = React.useState(false);
-  const [showAddStudent, setAddStudent] = React.useState(false);
-  const handleAddStudent = () => setAddStudent(true);
+  const [isAdd, setIsAdd] = React.useState(false);
+  const [isSuccess, setIsSuccess] = React.useState(false);
+  const [message, setMessage] = React.useState('');
+  const [itemEdit, setItemEdit] = React.useState(null);
+  // const [showAddStudent, setAddStudent] = React.useState(false);
+  // const handleAddStudent = () => setAddStudent(true);
+  const handleAdd = () => {
+    setIsAdd(true)
+    setItemEdit(null)
+  }
   const {
     isLoading,
     isFetching,
@@ -52,20 +62,21 @@ const Student = () => {
                     <li className='tab-link'><Link to="/database/teacher">Teacher</Link></li>
                     <li className='tab-link'><Link to="/database/staff">Staff</Link></li>
                   </ul>
-                  <button className='btn btn--accent' onClick={handleAddStudent}>
+                  <button className='btn btn--accent' onClick={handleAdd}>
                     <FiPlus/>New
                   </button>
                 </div>
-                <StudentTable setShowInfo={setShowInfo} showInfo={showInfo} isLoading={isLoading} student={student}/>
+                <StudentTable setShowInfo={setShowInfo} setIsSuccess={setIsSuccess} setMessage={setMessage} showInfo={showInfo} isLoading={isLoading} student={student} setItemEdit={setItemEdit} setIsAdd={setIsAdd}/>
               </div>
               <DatabaseInformation showInfo={showInfo}/>
             </div>
         </main>
     </section>
-      {showAddStudent && <ModalAddStudent setAddStudent={setAddStudent}/> }
+      {isAdd && <ModalAddStudent setIsAdd={setIsAdd} setIsSuccess={setIsSuccess} setMessage={setMessage} itemEdit={itemEdit}/> }
+      {isSuccess && <Toast setIsSuccess={setIsSuccess} message={message}/>}
       {/* <ModalError/> */}
       {/* <ModalValidate/> */}
-      {/* <ModalConfirm/> */}
+      
       {/* <SpinnerWindow/> */}
     </>
   )
@@ -73,4 +84,3 @@ const Student = () => {
 
 export default Student
 
-// main wrapper w-full toggle w-3/4
