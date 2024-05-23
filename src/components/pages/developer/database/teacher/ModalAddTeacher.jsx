@@ -9,15 +9,19 @@ import * as Yup from 'yup'
 const ModalAddTeacher = ({setAddTeacher}) => {
     const handleAddTeacher = () => setAddTeacher(false);
     const initVal = {
-        teacher_name: "",
-        teacher_class: "",
-        teacher_age: ""
+        teacher_name: itemEdit ? itemEdit.teacher_name: "",
+        teacher_class: itemEdit ? itemEdit.teacher_class: "",
+        teacher_age: itemEdit ? itemEdit.teacher_age: "",
+        teacher_gender: itemEdit ? itemEdit.teacher_gender: "",
+        teacher_email: itemEdit ? itemEdit.teacher_email: "",
     }
 
     const yupSchema = Yup.object({
         teacher_name: Yup.string().required("Required ito"),
-        teacher_class: Yup.string().required("Required ito").email("Invalid Email!"),
+        teacher_class: Yup.string().required("Required ito"),
         teacher_age: Yup.number().required("Required ito"),
+        teacher_gender: Yup.string().required("Required ito"),
+        teacher_email: Yup.string().required("Required ito"),
     })
 
   return (

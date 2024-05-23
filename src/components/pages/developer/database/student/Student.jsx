@@ -16,17 +16,23 @@ import SpinnerWindow from '../../../../partials/spinners/SpinnerWindow'
 import useQueryData from '../../../../custom-hook/useQueryData'
 import Toast from '../../../../partials/Toast'
 import ModalDelete from '../../../../partials/modals/ModalDelete'
+import Searchbar from './Searchbar'
+import { StoreContext } from '../../../../../store/StoreContext'
+import { setIsAdd } from '../../../../../store/StoreAction'
+
 
 const Student = () => {
+  const {store, dispatch} = React.useContext(StoreContext);
+  // store - initialvalue dispatch - change value
   const [showInfo, setShowInfo] = React.useState(false);
-  const [isAdd, setIsAdd] = React.useState(false);
-  const [isSuccess, setIsSuccess] = React.useState(false);
-  const [message, setMessage] = React.useState('');
   const [itemEdit, setItemEdit] = React.useState(null);
+  const [studentInfo, setStudentInfo] = React.useState('');
+  const [isSearch, setIsSeach] = React.useState(false)
+  const [keyword, setKeyword] = React.useState('');
   // const [showAddStudent, setAddStudent] = React.useState(false);
   // const handleAddStudent = () => setAddStudent(true);
   const handleAdd = () => {
-    setIsAdd(true)
+    dispatch(setIsAdd(true))
     setItemEdit(null)
   }
   const {
@@ -34,10 +40,13 @@ const Student = () => {
     isFetching,
     error,
     data: student,
-  } = useQueryData (
-    "/v1/student", // endpoint
-    "get", // method
-    "student" // key
+  } = useQueryData(
+    isSearch ? "/v1/student/search" : "/v1/student", // endpoint
+    isSearch ? "post" : "get", // method
+    "student", // key
+    {
+        searchValue: keyword
+    }
   );
   
   return (
@@ -47,18 +56,16 @@ const Student = () => {
         <main className='w-[calc(100%-250px)]'>
             <Header/>
             <div className='flex relative'>
-              <div className={`main-wrapper transition-all px-4 py-3 ${showInfo ? "w-3/4" : "w-full"}`}>
+              <div className={`main-wrapper transition-all px-4 py-3 ${store.isShow ? "w-3/4" : "w-full"}`}>
                 <div className='flex justify-between items-center'>
                   <h1>Database</h1>
-                  <form action="" className='relative'>
-                    <input type="text" placeholder='Search Student' className='p-1 px-3 pl-10 outline-none bg-secondary border border-stone-800 rounded-md placeholder:text-content placeholder:opacity-20'/>
-                    <CiSearch className='absolute top-1 left-1 text-content opacity-20 text-2xl'/>
-                  </form>
+                  <Searchbar setIsSeach={setIsSeach} setKeyword={setKeyword}/>
                 </div>
 
                 <div className='tab flex items-center justify-between mt-8 border-b border-line mb-8'>
                   <ul className='flex space-x-10'>
                     <li className='tab-link active'><Link to="/database/student">Student</Link></li>
+                    
                     <li className='tab-link'><Link to="/database/teacher">Teacher</Link></li>
                     <li className='tab-link'><Link to="/database/staff">Staff</Link></li>
                   </ul>
@@ -66,14 +73,14 @@ const Student = () => {
                     <FiPlus/>New
                   </button>
                 </div>
-                <StudentTable setShowInfo={setShowInfo} setIsSuccess={setIsSuccess} setMessage={setMessage} showInfo={showInfo} isLoading={isLoading} student={student} setItemEdit={setItemEdit} setIsAdd={setIsAdd}/>
+                <StudentTable setStudentInfo={setStudentInfo} setShowInfo={setShowInfo} showInfo={showInfo} isLoading={isLoading} student={student} setItemEdit={setItemEdit} />
               </div>
-              <DatabaseInformation showInfo={showInfo}/>
+              <DatabaseInformation studentInfo={studentInfo} setShowInfo={setShowInfo}/>
             </div>
         </main>
     </section>
-      {isAdd && <ModalAddStudent setIsAdd={setIsAdd} setIsSuccess={setIsSuccess} setMessage={setMessage} itemEdit={itemEdit}/> }
-      {isSuccess && <Toast setIsSuccess={setIsSuccess} message={message}/>}
+      {store.isAdd && <ModalAddStudent itemEdit={itemEdit}/> }
+      {store.success && <Toast />}
       {/* <ModalError/> */}
       {/* <ModalValidate/> */}
       

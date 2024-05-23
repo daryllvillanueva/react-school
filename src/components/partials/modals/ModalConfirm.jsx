@@ -4,9 +4,12 @@ import { LiaTimesSolid } from 'react-icons/lia'
 import { PiArchive } from 'react-icons/pi'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { queryData } from '../../helpers/queryData'
+import { StoreContext } from '../../../store/StoreContext'
+import { setIsActive, setMessage, setSuccess } from '../../../store/StoreAction'
 
-const ModalConfirm = ({setIsActive, endpoint, queryKey, isArchiving, setIsSuccess, setMessage}) => {
-  const handleClose = () => setIsActive(false);
+const ModalConfirm = ({endpoint, queryKey, isArchiving}) => {
+  const {dispatch} = React.useContext(StoreContext);
+  const handleClose = () => dispatch(setIsActive(false));
   const handleConfirm = async () => {
     mutation.mutate({
       isActive: isArchiving,
@@ -20,9 +23,9 @@ const ModalConfirm = ({setIsActive, endpoint, queryKey, isArchiving, setIsSucces
       queryClient.invalidateQueries({ queryKey: [queryKey] });
 
       if (data.success) {
-        setIsActive(false);
-        setIsSuccess(true);
-        setMessage(`Record successfully ${isArchiving ? "Restored" : "Archived"}.`)
+        dispatch(setIsActive(false))
+        dispatch(setSuccess(true))
+        dispatch(setMessage(`Record Successfully ${isArchiving ? "Restored" : "Archived"}.`))
       } else {
         // setIsError(true)
         // setMessage(data.error)

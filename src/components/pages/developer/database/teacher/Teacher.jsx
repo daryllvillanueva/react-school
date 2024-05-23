@@ -9,12 +9,14 @@ import DatabaseInformation from '../DatabaseInformation';
 import ModalValidate from '../../../../partials/modals/ModalValidate';
 import ModalAddTeacher from './ModalAddTeacher';
 import useQueryData from '../../../../custom-hook/useQueryData';
+import TeacherDatabaseInformation from '../TeacherDatabaseInformation';
 
 
 const Teacher = () => {
   const [showInfo, setShowInfo] = React.useState(false);
   const [showAddTeacher, setAddTeacher] = React.useState(false);
   const handleAddTeacher = () => setAddTeacher(true);
+  const [teacherInfo, setTeacherInfo] = React.useState('');
   const {
     isLoading,
     isFetching,
@@ -51,9 +53,9 @@ const Teacher = () => {
                     <FiPlus/>New
                   </button>
                 </div>
-                <TeacherTable setShowInfo={setShowInfo} showInfo={showInfo} isLoading={isLoading} teacher={teacher}/>
+                <TeacherTable setTeacherInfo={setTeacherInfo} setShowInfo={setShowInfo} showInfo={showInfo} isLoading={isLoading} teacher={teacher}/>
               </div>
-              <DatabaseInformation showInfo={showInfo} teacher={teacher}/>
+              <TeacherDatabaseInformation showInfo={showInfo} teacherInfo={teacherInfo}/>
             </div>
         </main>
         {showAddTeacher && <ModalAddTeacher setAddTeacher={setAddTeacher}/> }

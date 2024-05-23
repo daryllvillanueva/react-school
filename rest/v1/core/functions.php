@@ -48,6 +48,13 @@ function checkDbConnection()
     }
 }
 
+function checkSearch($object)
+{
+    $query = $object->search();
+    checkQuery($query, "Empty records. (search core)");
+    return $query;
+}
+
 function checkQuery($query, $msg)
 {
     if (!$query) {
@@ -109,6 +116,23 @@ function checkId($id)
         $error['code'] = "400";
         $error['error'] = "ID cannot be blank or must be numeric.";
         $error["success"] = false;
+        $response->setData($error);
+        $response->send();
+        exit;
+    }
+}
+
+// check search param
+function checkKeyword($keyword)
+{
+    $response = new Response();
+    if ($keyword == '') {
+        $response->setSuccess(false);
+        $error = [];
+        $error['code'] = "400";
+        $error['error'] = "Search keyword cannot be blank.";
+        $error["success"] = false;
+        $error["keyword"] = $keyword;
         $response->setData($error);
         $response->send();
         exit;
